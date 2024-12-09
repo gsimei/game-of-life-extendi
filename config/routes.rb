@@ -11,5 +11,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   devise_for :users
+
   root "home#index"
+
+  resources :game_states, only: [ :index, :show ]
 end
