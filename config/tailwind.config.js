@@ -12,6 +12,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      colors: {
+        customAmber: '#E1DBC7',
+      },
     },
   },
   plugins: [

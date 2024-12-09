@@ -1,0 +1,11 @@
+<h1>Game State: Generation <%= @game_state.generation %></h1>
+<p>Rows: <%= @game_state.rows %>, Cols: <%= @game_state.cols %></p>
+<table>
+  <% @game_state.state.each do |row| %>
+    <tr>
+      <% row.each do |cell| %>
+        <td><%= cell %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

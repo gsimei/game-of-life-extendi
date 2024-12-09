@@ -1,0 +1,8 @@
+<h1>Your Game States</h1>
+<ul>
+  <% @game_states.each do |game_state| %>
+    <li>
+      <%= link_to "Generation #{game_state.generation}", game_state_path(game_state) %>
+    </li>
+  <% end %>
+</ul>
