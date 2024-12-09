@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_09_143618) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_09_155930) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "game_states", force: :cascade do |t|
+    t.integer "generation"
+    t.integer "rows"
+    t.integer "cols"
+    t.jsonb "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
