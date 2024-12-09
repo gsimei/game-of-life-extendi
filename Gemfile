@@ -22,6 +22,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 # Tailwind CSS framework [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails"
+# Devise authentication [https://github.com/heartcombo/devise]
+gem "devise"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
