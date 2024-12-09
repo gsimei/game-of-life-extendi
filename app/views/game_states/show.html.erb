@@ -1,4 +1,11 @@
-<div>
-  <h1 class="font-bold text-4xl">GameStates#show</h1>
-  <p>Find me in app/views/game_states/show.html.erb</p>
-</div>
+<h1>Game State: Generation <%= @game_state.generation %></h1>
+<p>Rows: <%= @game_state.rows %>, Cols: <%= @game_state.cols %></p>
+<table>
+  <% @game_state.state.each do |row| %>
+    <tr>
+      <% row.each do |cell| %>
+        <td><%= cell %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
