@@ -1,20 +1,18 @@
 class GameState < ApplicationRecord
   belongs_to :user
 
-  validates :generation, presence: true
-  validates :rows, presence: true, numericality: { only_integer: true, greater_than: 0 }
-  validates :cols, presence: true, numericality: { only_integer: true, greater_than: 0 }
-  validate :state_matches_dimensions
+  attr_accessor :input_file
 
-  private
+  before_validation :process_file, if: :file_present?
 
-  def state_matches_dimensions
-    return if state.blank?
+  def file_present?
+    input_file.present?
+  end
 
-    # Esperamos que state seja algo como um array de arrays de caracteres
-    # Certifique-se que `state` é um array do tamanho `rows`
-    unless state.is_a?(Array) && state.size == rows && state.all? { |row| row.is_a?(Array) && row.size == cols }
-      errors.add(:state, "does not match the specified rows and cols")
-    end
+  def process_file
+    parsed = GameStateUploadService.new(input_file.read).call
+    self.attributes = parsed
+  rescue => e
+    errors.add(:base, "Invalid file format: #{e.message}")
   end
 end

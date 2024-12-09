@@ -14,5 +14,10 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  resources :game_states, only: [ :index, :show ]
+  resources :game_states, only: [ :index, :show ] do
+    collection do
+      get :new_upload
+      post :create_from_file
+    end
+  end
 end

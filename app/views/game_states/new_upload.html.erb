@@ -1,0 +1,11 @@
+
+<h1>Upload a Game State File</h1>
+<%= form_with url: create_from_file_game_states_path, local: true, multipart: true do %>
+  <div>
+    <label for="input_file">Choose file:</label>
+    <%= file_field_tag :input_file, accept: ".txt", required: true %>
+  </div>
+  <div>
+    <%= submit_tag "Upload" %>
+  </div>
+<% end %>
