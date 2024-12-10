@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GameStateGenerationService do
+RSpec.describe GameStateProgressionService do
   let(:user) { build(:user) }
 
   describe "Game of Life progression" do
@@ -14,7 +14,7 @@ RSpec.describe GameStateGenerationService do
 
         allow(game_state).to receive(:save!).and_return(true)
 
-        GameStateGenerationService.new(game_state).next_generation!
+        GameStateProgressionService.new(game_state).next_generation!
 
         expect(game_state.generation).to eq(2)
         expect(game_state.state).to eq([
@@ -35,7 +35,7 @@ RSpec.describe GameStateGenerationService do
 
         allow(game_state).to receive(:save!).and_return(true)
 
-        GameStateGenerationService.new(game_state).next_generation!
+        GameStateProgressionService.new(game_state).next_generation!
 
         expect(game_state.generation).to eq(2)
         expect(game_state.state[1][1]).to eq("*")
@@ -50,7 +50,7 @@ RSpec.describe GameStateGenerationService do
 
         allow(game_state).to receive(:save!).and_return(true)
 
-        GameStateGenerationService.new(game_state).next_generation!
+        GameStateProgressionService.new(game_state).next_generation!
 
         expect(game_state.generation).to eq(2)
         expect(game_state.state[1][1]).to eq("*")
@@ -67,7 +67,7 @@ RSpec.describe GameStateGenerationService do
 
         allow(game_state).to receive(:save!).and_return(true)
 
-        GameStateGenerationService.new(game_state).next_generation!
+        GameStateProgressionService.new(game_state).next_generation!
 
         expect(game_state.generation).to eq(2)
         expect(game_state.state[1][1]).to eq(".") # A célula central deve morrer
@@ -84,7 +84,7 @@ RSpec.describe GameStateGenerationService do
 
         allow(game_state).to receive(:save!).and_return(true)
 
-        GameStateGenerationService.new(game_state).next_generation!
+        GameStateProgressionService.new(game_state).next_generation!
 
         expect(game_state.generation).to eq(2)
         expect(game_state.state).to eq([

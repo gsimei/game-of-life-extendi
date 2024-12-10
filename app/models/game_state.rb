@@ -6,7 +6,7 @@ class GameState < ApplicationRecord
   before_validation :process_file, if: :input_file
 
   def next_generation!
-    GameStateGenerationService.new(self).next_generation!
+    GameStateProgressionService.new(self).next_generation!
   end
 
   def alived_cells

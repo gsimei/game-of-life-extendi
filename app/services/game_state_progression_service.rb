@@ -1,4 +1,4 @@
-class GameStateGenerationService
+class GameStateProgressionService
   def initialize(game_state)
     @game_state = game_state
     @rows = game_state.rows
