@@ -34,6 +34,15 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Use RSpec for unit and integration tests [https://rspec.info/]
+  gem "rspec-rails"
+
+  # Use FactoryBot for test data [https://github.com/thoughtbot/factory_bot_rails]
+  gem "factory_bot_rails"
+
+  # Use Faker for generating fake data [https://github.com/faker-ruby/faker]
+  gem "faker"
 end
 
 group :development do
