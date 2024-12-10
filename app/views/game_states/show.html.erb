@@ -1,11 +1,14 @@
 <h1>Game State: Generation <%= @game_state.generation %></h1>
-<p>Rows: <%= @game_state.rows %>, Cols: <%= @game_state.cols %></p>
+<p>Celulas vivas: <%= @game_state.alived_cells %></p>
+<!-- Mostrar a matriz atual -->
 <table>
   <% @game_state.state.each do |row| %>
     <tr>
       <% row.each do |cell| %>
-        <td><%= cell %></td>
+        <td><%= cell == "*" ? "★" : " " %></td>
       <% end %>
     </tr>
   <% end %>
 </table>
+
+<%= button_to "Next Generation", update_generation_game_state_path(@game_state), method: :post, class: "btn btn-primary" %>
