@@ -1,5 +1,5 @@
 class GameStatesController < ApplicationController
-  before_action :set_game_state, only: [ :show ]
+  before_action :set_game_state, only: [ :show, :update, :destroy ]
 
   def index
     @game_states = current_user.game_states.order(created_at: :desc)
@@ -7,13 +7,29 @@ class GameStatesController < ApplicationController
 
   def show; end
 
-  def new_upload; end
+  def new
+    @game_state = GameState.new
+  end
 
-  def create_from_file
-    @game_state = current_user.game_states.new(input_file: params[:input_file])
+  def create
+    @game_state = current_user.game_states.new(game_state_params)
     return handle_creation_error(@game_state) unless @game_state.save
 
     handle_successful_creation(@game_state)
+  end
+
+  def update
+    @game_state.next_generation!
+    redirect_to @game_state, notice: "Game State progressed to generation #{@game_state.generation}"
+  rescue => e
+    flash[:alert] = "Could not update generation: #{e.message}"
+    redirect_to @game_state
+  end
+
+  def destroy
+    @game_state.destroy
+    flash[:notice] = "Game State deleted successfully!"
+    redirect_to game_states_path
   end
 
   private
@@ -24,11 +40,15 @@ class GameStatesController < ApplicationController
 
   def handle_successful_creation(game_state)
     flash[:notice] = "Game State created successfully!"
-    redirect_to game_state_path(game_state)
+    redirect_to game_state
   end
 
   def handle_creation_error(game_state)
     flash[:alert] = "Error saving GameState: #{game_state.errors.full_messages.join(', ')}"
-    redirect_to new_upload_game_states_path
+    redirect_to new_game_state_path
+  end
+
+  def game_state_params
+    params.require(:game_state).permit(:input_file)
   end
 end

@@ -11,4 +11,4 @@
   <% end %>
 </table>
 
-<%= button_to "Next Generation", update_generation_game_state_path(@game_state), method: :post, class: "btn btn-primary" %>
+<%= button_to "Next Generation", game_state_path(@game_state), method: :patch, class: "btn btn-primary" %>
