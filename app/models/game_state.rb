@@ -3,14 +3,18 @@ class GameState < ApplicationRecord
 
   attr_accessor :input_file
 
-  before_validation :process_file, if: :file_present?
+  before_validation :process_file, if: :input_file
 
-  def file_present?
-    input_file.present?
+  def next_generation!
+    GameStateGenerationService.new(self).next_generation!
+  end
+
+  def alived_cells
+    state.flatten.count { |cell| cell == "*" }
   end
 
   def process_file
-    return file_type_error_message unless input_file.content_type == "text/plain"
+    validate_file_type
 
     parsed = GameStateUploadService.new(input_file.read).call
     self.attributes = parsed
@@ -18,9 +22,10 @@ class GameState < ApplicationRecord
     errors.add(:base, "Invalid file format: #{e.message}")
   end
 
-  private
-
-  def file_type_error_message
-    errors.add(:input_file, "must be a .txt file")
+  def validate_file_type
+    unless input_file.content_type == "text/plain"
+      errors.add(:input_file, "must be a .txt file")
+      throw :abort
+    end
   end
 end
