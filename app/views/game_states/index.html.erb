@@ -3,6 +3,7 @@
   <% @game_states.each do |game_state| %>
     <li>
       <%= link_to "Generation #{game_state.generation}", game_state_path(game_state) %>
+      <p><%= button_to 'Excluir', game_state_path(game_state), method: :delete %></p>
     </li>
   <% end %>
 </ul>
