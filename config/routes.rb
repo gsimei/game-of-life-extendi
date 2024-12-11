@@ -14,5 +14,9 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  resources :game_states, except: [ :edit ]
+  resources :game_states, except: [ :edit ] do
+    member do
+      patch :reset_to_initial
+    end
+  end
 end

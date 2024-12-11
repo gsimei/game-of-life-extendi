@@ -1,5 +1,5 @@
 class GameStatesController < ApplicationController
-  before_action :set_game_state, only: [ :show, :update, :destroy ]
+  before_action :set_game_state, only: %i[ show update destroy reset_to_initial ]
 
   def index
     @game_states = current_user.game_states.order(created_at: :desc)
@@ -25,6 +25,17 @@ class GameStatesController < ApplicationController
     flash[:alert] = "Could not update generation: #{e.message}"
     redirect_to @game_state
   end
+
+  def reset_to_initial
+    if @game_state.restore_initial_state
+      flash[:notice] = "Game state has been reset to its initial version."
+    else
+      flash[:alert] = "Failed to reset game state."
+    end
+
+    redirect_to @game_state
+  end
+
 
   def destroy
     @game_state.destroy
