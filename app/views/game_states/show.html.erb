@@ -10,7 +10,7 @@
         </p>
       <% end %>
       <h2 class="text-base/7 font-semibold text-gray-900">Game State: Generation <%= @game_state.generation %></h2>
-      <p class="mt-1 text-sm/6 text-gray-600">Population: <%= @game_state.alived_cells %></p>
+      <p class="mt-1 text-sm/6 text-gray-600">Population: <%= @game_state.alived_cells_count %></p>
       <p class="mt-1 text-sm/6 text-gray-600">Keep an eye on those cells! They might just start a revolution.</p>
       <div class="flex mt-4 gap-5">
         <%= button_to game_state_path(@game_state), method: :delete, class: "inline-block" do  %>
