@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_11_095208) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_11_101343) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -36,17 +36,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_11_095208) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "versions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "whodunnit"
-    t.datetime "created_at"
-    t.string "item_id", null: false
-    t.string "item_type", null: false
-    t.string "event", null: false
-    t.text "object"
-    t.text "object_changes"
-    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   add_foreign_key "game_states", "users"
