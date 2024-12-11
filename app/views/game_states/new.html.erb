@@ -1,11 +1,35 @@
-
-<h1>Upload a Game State File</h1>
-<%= form_with model: @game_state, local: true, multipart: true do |form| %>
-  <div>
-    <label for="input_file">Choose file:</label>
-    <%= form.file_field :input_file, accept: ".txt", required: true %>
-  </div>
-  <div>
-    <%= form.submit "Upload" %>
-  </div>
-<% end %>
+<%= button_to t('defaults.devise.log_out'), destroy_user_session_path, method: :delete, class: "block px-3 py-1 text-sm leading-6 text-gray-900"  %>
+<div class="space-y-10 divide-y divide-gray-900/10 m-10">
+  <div class="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
+    <div class="px-4 sm:px-0 flex justify-center items-center flex-col">
+      <h2 class="text-base/7 font-semibold text-gray-900">File Format</h2>
+      <p class="mt-1 text-sm/6 text-gray-600">Before you start playing, please check the file format you can upload. We don't want you accidentally creating a parallel universe!</p>
+      <code class="bg-black rounded-lg p-4 inline-block">
+        <p class="text-gray-300">Generation 1:</p>
+        <p class="text-gray-300">4 8</p>
+        <p class="text-gray-300">........</p>
+        <p class="text-gray-300">....*...</p>
+        <p class="text-gray-300">...**...</p>
+        <p class="text-gray-300">........</p>
+      </code>
+      <p class="mt-1 text-sm/6 text-gray-600">Remember, the file needs to be a .txt. We don't want Conway rolling in his grave!</p>
+    </div>
+    <%= form_with model: @game_state, local: true, multipart: true, class: "bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2" do |form| %>
+      <div class="px-4 py-6 sm:p-8">
+        <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="sm:col-span-4">
+            <label for="username" class="block text-sm/6 font-medium text-gray-900">Choose your file</label>
+            <div class="mt-2">
+              <div class="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                <%= form.file_field :input_file, accept: ".txt", required: true %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+          <%= form.submit "Upload", class: "mt-5 flex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900" %>
+      </div>
+    <% end %>
+    </div>
+</div>
