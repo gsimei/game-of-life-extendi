@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   devise_for :users
 
-  root "home#index"
+  root "game_states#index"
 
   resources :game_states, except: %i[ edit update ] do
     member do

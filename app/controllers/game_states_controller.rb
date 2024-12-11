@@ -2,6 +2,8 @@ class GameStatesController < ApplicationController
   before_action :set_game_state, only: %i[ show next_generation destroy reset_to_initial ]
 
   def index
+    return redirect_to new_game_state_path unless current_user.game_states.any?
+
     @game_states = current_user.game_states.order(created_at: :desc)
   end
 

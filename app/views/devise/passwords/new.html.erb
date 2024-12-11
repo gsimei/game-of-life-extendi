@@ -1,16 +1,39 @@
-<h2>Forgot your password?</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="flex min-h-full flex-col justify-center pt-10 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <%= image_tag 'game_of_life_logo.jpeg', class: "mx-auto h-60 w-auto",  alt:'Game of Life logo' %>
+    <h2 class="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+    <div class="bg-white px-6 py-6 shadow sm:rounded-lg sm:px-9">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <div>
+          <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
+          <div class="mt-2">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6", placeholder: "george.simei@extendi.it" %>
+          </div>
+        </div>
 
-<%= render "devise/shared/links" %>
+        <div>
+          <%= f.submit "Send me reset password instructions", class: "mt-5 flex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900" %>
+        </div>
+      <% end %>
+
+      <div>
+        <div class="relative mt-10">
+          <div class="absolute inset-0 flex items-center" aria-hidden="true">
+            <div class="w-full border-t border-gray-200"></div>
+          </div>
+          <div class="relative flex justify-center text-sm/6 font-medium">
+            <span class="bg-white px-6 text-gray-900">Or</span>
+          </div>
+        </div>
+
+        <div class="mt-6 gap-4 flex justify-center">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,11 +22,9 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body class="bg-customAmber">
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <main class="h-full"">
+    <%= render 'shared/flashes' %>
+    <main class="h-full">
       <%= yield %>
     </main>
   </body>
