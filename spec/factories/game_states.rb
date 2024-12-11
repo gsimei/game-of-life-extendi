@@ -5,6 +5,7 @@ FactoryBot.define do
     rows { 4 }
     cols { 8 }
     state { Array.new(rows) { Array.new(cols, ".") } } # Estado inicial vazio
+    initial_file_data { {} }
 
     # Trait para um estado inicial progressivo (ex: padrão 'blinker')
     trait :blinker do

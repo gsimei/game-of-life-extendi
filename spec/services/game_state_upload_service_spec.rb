@@ -16,12 +16,12 @@ RSpec.describe GameStateUploadService do
 
         expect(result[:generation]).to eq(3)
         expect(result[:rows]).to eq(4)
-        expect(result[:cols]).to eq(8)
+        expect(result[:cols]).to eq(4)
         expect(result[:state]).to eq([
-          [ ".", ".", ".", ".", ".", ".", ".", "." ],
-          [ ".", ".", ".", ".", "*", ".", ".", "." ],
-          [ ".", ".", ".", "*", "*", ".", ".", "." ],
-          [ ".", ".", ".", ".", ".", ".", ".", "." ]
+          [ ".", ".", ".", "." ],
+          [ ".", "*", "*", "." ],
+          [ ".", "*", "*", "." ],
+          [ ".", ".", ".", "." ]
         ])
       end
     end

@@ -11,4 +11,5 @@
   <% end %>
 </table>
 
-<%= button_to "Next Generation", game_state_path(@game_state), method: :patch, class: "btn btn-primary" %>
+<%= button_to "Next Generation", next_generation_game_state_path(@game_state), method: :patch, class: "btn btn-primary" %>
+<%= button_to "Reset to Initial State", reset_to_initial_game_state_path(@game_state), method: :patch %>
