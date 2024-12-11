@@ -1,11 +1,11 @@
 <div class="flex min-h-full flex-col justify-center pt-10 sm:px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
     <%= image_tag 'game_of_life_logo.jpeg', class: "mx-auto h-60 w-auto",  alt:'Game of Life logo' %>
-    <h2 class="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+    <h2 class="mt-3 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
   </div>
 
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
-    <div class="bg-white px-6 py-10 shadow sm:rounded-lg sm:px-9">
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-[480px]">
+    <div class="bg-white px-6 py-6 shadow sm:rounded-lg sm:px-9">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
         <div>
