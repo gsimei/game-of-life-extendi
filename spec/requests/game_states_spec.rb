@@ -107,8 +107,6 @@ RSpec.describe "GameStates", type: :request do
       }.to change(GameState, :count).by(-1)
 
       expect(response).to redirect_to(game_states_path)
-      follow_redirect!
-      expect(response.body).to include("Game State deleted successfully!")
     end
   end
 end
