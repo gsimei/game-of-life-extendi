@@ -83,8 +83,6 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-      - name: Install Tailwind CSS
-        run: npm install tailwindcss
 
       - name: Set up database
         env:
@@ -97,7 +95,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/game_of_life_extendi_test
-        run: bundle exec rspec
+        run: bin/rspec
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
