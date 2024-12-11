@@ -1,25 +1,64 @@
-<h2>Change your password</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+<div class="flex min-h-full flex-col justify-center pt-10 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <%= image_tag 'game_of_life_logo.jpeg', class: "mx-auto h-60 w-auto",  alt:'Game of Life logo' %>
+    <h2 class="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+    <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-9">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.hidden_field :reset_password_token %>
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
+        <div>
+          <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
+          <div class="mt-2">
+            <%= f.password_field :password, autocomplete: "new-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6", placeholder: "123456" %>
+          </div>
+        </div>
 
-<%= render "devise/shared/links" %>
+        <div>
+          <label for="password" class="block text-sm/6 font-medium text-gray-900">Confirm your Password</label>
+          <div class="mt-2">
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6", placeholder: "123456" %>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <div class="flex gap-3">
+            <div class="flex h-6 shrink-0 items-center">
+              <div class="group grid size-4 grid-cols-1">
+                <%= f.check_box :remember_me, class: "col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-gray-500 checked:bg-gray-500 indeterminate:border-gray-500 indeterminate:bg-gray-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" %>
+                <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
+                  <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path class="opacity-0 group-has-[:indeterminate]:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <label for="remember-me" class="block text-sm/6 text-gray-900">Remember me</label>
+          </div>
+        </div>
+
+
+        <div>
+          <%= f.submit "Change my password" , class: "flex w-full justify-center rounded-md bg-gray-900 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900" %>
+        </div>
+      <% end %>
+
+      <div>
+        <div class="relative mt-10">
+          <div class="absolute inset-0 flex items-center" aria-hidden="true">
+            <div class="w-full border-t border-gray-200"></div>
+          </div>
+          <div class="relative flex justify-center text-sm/6 font-medium">
+            <span class="bg-white px-6 text-gray-900">Or</span>
+          </div>
+        </div>
+
+        <div class="mt-6 gap-4 flex justify-center">
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
