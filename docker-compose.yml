@@ -23,7 +23,7 @@ services:
       - db
     volumes:
       - .:/rails
-    tty: true # Adicione esta linha
+    tty: true
     command: >
       bash -c "
       bundle check || bundle install &&

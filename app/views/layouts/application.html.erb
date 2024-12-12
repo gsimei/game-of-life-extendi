@@ -23,6 +23,9 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="bg-customAmber">
+    <% unless controller.controller_path.include?('devise') %>
+      <%= render 'shared/navbar' %>
+    <% end %>
     <%= render 'shared/flashes' %>
     <main class="h-full">
       <%= yield %>
