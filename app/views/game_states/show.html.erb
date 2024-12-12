@@ -9,11 +9,10 @@
           Back
         </p>
       <% end %>
-      <h2 class="text-base/7 font-semibold text-gray-900">Game State: Generation <%= @game_state.generation %></h2>
-      <p class="mt-1 text-sm/6 text-gray-600">Population: <%= @game_state.alived_cells_count %></p>
+      <h2 class="text-base/7 font-semibold text-gray-900">Game State</h2>
       <p class="mt-1 text-sm/6 text-gray-600">Keep an eye on those cells! They might just start a revolution.</p>
       <div class="flex mt-4 gap-5">
-        <%= button_to game_state_path(@game_state), method: :delete, class: "inline-block" do  %>
+        <%= button_to game_state_path(@game_state), method: :delete, data: {turbo: false}, class: "inline-block" do  %>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
             <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
           </svg>
@@ -32,18 +31,6 @@
         <% end %>
       </div>
     </div>
-    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3 p-10">
-      <!-- Mensagem para telas pequenas -->
-      <div class="block md:hidden text-center text-red-500 mb-4 landscape:hidden">
-        Please rotate your device for a better viewing experience.
-      </div>
-      <div class="grid gap-1 bg-black p-2 rounded-lg" style="grid-template-columns: repeat(<%= @game_state.cols %>, minmax(0, 1fr)); grid-template-rows: repeat(<%= @game_state.rows %>, minmax(0, 1fr));">
-        <% @game_state.state.each do |row| %>
-          <% row.each do |cell| %>
-            <div class="<%= cell == '*' ? 'bg-white' : 'bg-black' %> w-6 h-6 border border-gray-700"></div>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
+    <%= render @game_state %>
   </div>
 </div>
