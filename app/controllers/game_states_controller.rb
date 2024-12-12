@@ -24,17 +24,20 @@ class GameStatesController < ApplicationController
     @game_state.next_generation!
 
     flash.now[:notice] = "Game State progressed to generation: #{@game_state.generation}"
-    render :update_game_state
+    render :update_game_state, formats: :turbo_stream
   rescue => e
     flash[:alert] = "Could not update generation: #{e.message}"
     redirect_to @game_state
   end
 
   def reset_to_initial
-    return redirect_to @game_state, alert: "Could not restore initial state" unless @game_state.restore_initial_state!
+    unless @game_state.restore_initial_state!
+      flash.now[:alert] = "Could not restore initial state"
+      return render "game_states/update_game_state", formats: :turbo_stream
+    end
 
     flash.now[:notice] = "Game State restored to initial state"
-    render :update_game_state
+    render "game_states/update_game_state", formats: :turbo_stream
   end
 
   def destroy

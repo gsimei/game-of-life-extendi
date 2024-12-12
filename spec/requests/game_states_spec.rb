@@ -66,24 +66,22 @@ RSpec.describe "GameStates", type: :request do
     it "progresses the game state to the next generation" do
       allow_any_instance_of(GameState).to receive(:next_generation!).and_call_original
 
-      patch next_generation_game_state_path(game_state)
+      patch next_generation_game_state_path(game_state), headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
 
-      expect(response).to redirect_to(game_state_path(game_state))
-      follow_redirect!
+      expect(response).to have_http_status(:ok)
       expect(response.body).to include("Game State progressed to generation")
     end
   end
 
   describe "PATCH /reset_to_initial" do
     context "when reset is successful" do
-      it "resets the game state and redirects" do
+      it "resets the game state and renders turbo stream" do
         allow_any_instance_of(GameState).to receive(:restore_initial_state!).and_return(true)
 
-        patch reset_to_initial_game_state_path(game_state)
+        patch reset_to_initial_game_state_path(game_state), headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
 
-        expect(response).to redirect_to(game_state_path(game_state))
-        follow_redirect!
-        expect(response.body).to include("Game state has been reset to its initial version.")
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Game State restored to initial state")
       end
     end
 
@@ -91,11 +89,10 @@ RSpec.describe "GameStates", type: :request do
       it "shows an error message" do
         allow_any_instance_of(GameState).to receive(:restore_initial_state!).and_return(false)
 
-        patch reset_to_initial_game_state_path(game_state)
+        patch reset_to_initial_game_state_path(game_state), headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
 
-        expect(response).to redirect_to(game_state_path(game_state))
-        follow_redirect!
-        expect(response.body).to include("Failed to reset game state.")
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Could not restore initial state")
       end
     end
   end
