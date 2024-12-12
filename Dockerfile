@@ -64,15 +64,13 @@ RUN groupadd --system --gid 1000 rails && \
     chown -R rails:rails db log storage tmp
 USER 1000:1000
 
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
-# Expose the port
+# Expose the port Heroku requires
 EXPOSE 3000
 
-# Set entrypoint to ensure ENV variable $PORT is passed
-ENTRYPOINT ["./bin/thrust"]
+# Combine both entrypoints
+ENTRYPOINT ["/rails/bin/docker-entrypoint", "sh", "-c"]
 
-# Use the $PORT environment variable properly
-CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "${PORT}"]
+# Use CMD to start the Rails server with thrust
+CMD ["./bin/thrust ./bin/rails server -b 0.0.0.0 -p ${PORT}"]
