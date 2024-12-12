@@ -68,6 +68,11 @@ USER 1000:1000
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
-# Expose porta do container (não precisa ser 80, pois Heroku usará $PORT)
+# Expose the port
 EXPOSE 3000
-CMD ["./bin/thrust", "./bin/rails", "server", "-b", "0.0.0.0", "-p", "$PORT"]
+
+# Set entrypoint to ensure ENV variable $PORT is passed
+ENTRYPOINT ["./bin/thrust"]
+
+# Use the $PORT environment variable properly
+CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "${PORT}"]
