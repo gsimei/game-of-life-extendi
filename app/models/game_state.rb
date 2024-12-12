@@ -6,7 +6,7 @@ class GameState < ApplicationRecord
   before_validation :process_file, if: :input_file
 
   before_save :update_alived_cells_count
-  after_create :store_initial_file_data
+  before_create :store_initial_file_data
 
 
   def next_generation!
@@ -46,11 +46,11 @@ class GameState < ApplicationRecord
   end
 
   def store_initial_file_data
-    update_column(:initial_file_data, {
+    self.initial_file_data = {
       generation: generation,
       rows: rows,
       cols: cols,
       state: state
-    })
+    }
   end
 end
