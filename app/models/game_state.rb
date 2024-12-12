@@ -4,14 +4,13 @@ class GameState < ApplicationRecord
   attr_accessor :input_file
 
   before_validation :process_file, if: :input_file
+
+  before_save :update_alived_cells_count
   after_create :store_initial_file_data
+
 
   def next_generation!
     GameStateProgressionService.new(self).next_generation!
-  end
-
-  def alived_cells
-    state.flatten.count { |cell| cell == "*" }
   end
 
   def restore_initial_state!
@@ -40,6 +39,10 @@ class GameState < ApplicationRecord
       errors.add(:input_file, "must be a .txt file")
       throw :abort
     end
+  end
+
+  def update_alived_cells_count
+    self.alived_cells_count = state.flatten.count { |cell| cell == "*" }
   end
 
   def store_initial_file_data
