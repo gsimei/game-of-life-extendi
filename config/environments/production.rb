@@ -66,9 +66,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address:         "smtp.gmail.com",
     port:            587,
-    domain:          "yourdomain.com",
-    user_name:       Rails.application.credentials.dig(:smtp, :user_name),
-    password:        Rails.application.credentials.dig(:smtp, :password),
+    domain:          "game-of-life-extendi-d0a4207819eb.herokuapp.com",
+    user_name:       ENV["SMTP_USER_NAME"],
+    password:        ENV["SMTP_PASSWORD"],
     authentication:  "plain",
     enable_starttls: true,
     open_timeout:    5,
