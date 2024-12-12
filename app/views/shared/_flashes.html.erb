@@ -1,10 +1,19 @@
-<%= turbo_frame_tag "flash_messages", class: "fixed bottom-4 right-4 space-y-4" do  %>
+<%= turbo_frame_tag "flash_messages", class: "fixed bottom-4 right-4 space-y-4" do %>
   <% flash.each do |key, message| %>
-    <div class="alert alert-<%= key %> bg-<%= key == 'notice' ? 'green' : 'red' %>-100 border border-<%= key == 'notice' ? 'green' : 'red' %>-400 text-<%= key == 'notice' ? 'green' : 'red' %>-700 px-4 py-3 rounded shadow-lg relative" role="alert">
-      <span class="block sm:inline"><%= message %></span>
-      <button type="button" class="absolute top-0 bottom-0 right-0 pl-6 py-3" onclick="this.parentElement.style.display='none';">
-        <span class="text-<%= key == 'notice' ? 'green' : 'red' %>-700">&times;</span>
-      </button>
-    </div>
+    <% if key == 'notice' %>
+      <div class="alert alert-notice bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg relative" role="alert">
+        <span class="block sm:inline"><%= message %></span>
+        <button type="button" class="absolute top-0 bottom-0 right-0 pl-6 py-3" onclick="this.parentElement.style.display='none';">
+          <span class="text-green-700">&times;</span>
+        </button>
+      </div>
+    <% else %>
+      <div class="alert alert-<%= key %> bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow-lg relative" role="alert">
+        <span class="block sm:inline"><%= message %></span>
+        <button type="button" class="absolute top-0 bottom-0 right-0 pl-6 py-3" onclick="this.parentElement.style.display='none';">
+          <span class="text-red-700">&times;</span>
+        </button>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
