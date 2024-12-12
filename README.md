@@ -94,14 +94,14 @@ This will execute all the test files located in your spec/ directory.
 ### **1. Generating Yard Documentation**
 
 ```bash
-  docker compose run app bundle exec yard doc
+  yard server
 ```
 The generated documentation will be available in the doc/ folder.
 
 To view the documentation locally:
 
 ```bash
-  open doc/index.html
+  http://0.0.0.0:8808
 ```
 
 ---
