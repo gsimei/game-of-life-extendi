@@ -1,4 +1,4 @@
-<div id="flash-container" class="fixed bottom-4 right-4 space-y-4">
+<%= turbo_frame_tag "flash_messages", class: "fixed bottom-4 right-4 space-y-4" do  %>
   <% flash.each do |key, message| %>
     <div class="alert alert-<%= key %> bg-<%= key == 'notice' ? 'green' : 'red' %>-100 border border-<%= key == 'notice' ? 'green' : 'red' %>-400 text-<%= key == 'notice' ? 'green' : 'red' %>-700 px-4 py-3 rounded shadow-lg relative" role="alert">
       <span class="block sm:inline"><%= message %></span>
@@ -7,4 +7,4 @@
       </button>
     </div>
   <% end %>
-</div>
+<% end %>
