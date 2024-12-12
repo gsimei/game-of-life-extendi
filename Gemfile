@@ -24,6 +24,8 @@ gem "bootsnap", require: false
 gem "tailwindcss-rails"
 # Devise authentication [https://github.com/heartcombo/devise]
 gem "devise"
+# Use Thruster for deploying Rails applications [https://github.com/basecamp/thruster]
+gem "thruster"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
