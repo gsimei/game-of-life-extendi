@@ -19,6 +19,7 @@ services:
       DATABASE_URL: postgres://postgres:password@db:5432/game_of_life_extendi_development
     ports:
       - "3000:3000"
+      - "8808:8808"
     depends_on:
       - db
     volumes:
@@ -26,10 +27,9 @@ services:
     tty: true
     command: >
       bash -c "
+      rm -f tmp/pids/server.pid &&
       bundle check || bundle install &&
-      bin/rails db:prepare &&
-      bin/dev
-      "
-
+      yard server --host 0.0.0.0 --port 8808 &
+      bin/dev"
 volumes:
   postgres_data:
