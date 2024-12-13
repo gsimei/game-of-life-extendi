@@ -83,7 +83,7 @@ http://localhost:3000
 To run the test suite with RSpec:
 
 ```bash
-docker compose run app bundle exec rspec
+  docker compose -f docker-compose.test.yml run --rm app bundle exec rspec
 ```
 This will execute all the test files located in your spec/ directory.
 
@@ -93,11 +93,6 @@ This will execute all the test files located in your spec/ directory.
 
 ### **1. Generating Yard Documentation**
 
-```bash
-  yard server
-```
-The generated documentation will be available in the doc/ folder.
-
 To view the documentation locally:
 
 ```bash
@@ -105,6 +100,7 @@ To view the documentation locally:
 ```
 
 ---
+
 ## **Technologies Used**
 
 * Backend: Ruby on Rails 8.0.0.1
