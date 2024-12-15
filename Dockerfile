@@ -1,40 +1,34 @@
 # syntax=docker/dockerfile:1
-# check=error=true
 
-# This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t game_of_life_extendi .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name game_of_life_extendi game_of_life_extendi
+# ====== Base Stage ========
+FROM ruby:3.3.6-slim AS base
 
-# For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
+# Declare the ARG after the FROM so the base stage can access it
+ARG RAILS_ENV=development
 
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=3.3.6
-FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
-
-# Rails app lives here
+# Set the working directory
 WORKDIR /rails
 
-# Install base packages
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-# Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
+# Set environment variables
+ENV RAILS_ENV=${RAILS_ENV} \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT=""
 
-# Throw-away build stage to reduce size of final image
-FROM base AS build
+# Conditional for production
+RUN if [ "$RAILS_ENV" = "production" ]; then \
+      export BUNDLE_WITHOUT="development"; \
+    fi
 
-# Install packages needed to build gems
+# Install necessary packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config && \
+    apt-get install --no-install-recommends -y \
+      curl libjemalloc2 libvips postgresql-client git build-essential libpq-dev pkg-config && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Install application gems
+# Copy dependency files
 COPY Gemfile Gemfile.lock ./
+
+# Install gems
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
@@ -42,35 +36,48 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# ====== Development Stage ========
+FROM base AS development
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Set environment variables specific to development
+ENV RAILS_ENV=development
 
+# Copy application code
+COPY . .
 
+# Command for development
+CMD ["bin/dev"]
 
+# ====== Production Stage ========
+FROM base AS production
 
-# Final stage for app image
-FROM base
+# Set environment variables specific to production
+ENV RAILS_ENV=production \
+    BUNDLE_WITHOUT="development"
 
-# Copy built artifacts: gems, application
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
+# Copy application code
+COPY . .
 
-# Run and own only the runtime files as a non-root user for security
+# Precompile assets
+RUN bundle exec bootsnap precompile app/ lib/ && \
+    SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+
+# ====== Final Stage ========
+FROM production AS final
+
+# Set appropriate permissions
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
+
 USER 1000:1000
 
+# Expose Rails and YARD server ports
+EXPOSE 3000 8808
 
-# Start server via Thruster by default, this can be overwritten at runtime
-# Expose the port Heroku requires
-EXPOSE 3000
-
-# Combine both entrypoints
-ENTRYPOINT ["/rails/bin/docker-entrypoint", "sh", "-c"]
-
-# Use CMD to start the Rails server with thrust
-CMD ["./bin/thrust ./bin/rails server -b 0.0.0.0 -p ${PORT}"]
+# Execution command based on the environment
+CMD ["bash", "-c", "if [ \"$RAILS_ENV\" = \"production\" ]; then \
+      ./bin/thrust ./bin/rails server -b 0.0.0.0 -p ${PORT:-3000}; \
+    else \
+      rm -f tmp/pids/server.pid && bundle exec yard server --host 0.0.0.0 --port 8808 & bin/dev; \
+    fi"]
