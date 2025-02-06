@@ -59,14 +59,14 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "ggame-of-life-extendi-8849dd8f6df1.herokuapp.com", protocol: "https" }
+  config.action_mailer.default_url_options = { host: "game-of-life-extendi-8849dd8f6df1.herokuapp.com", protocol: "https" }
 
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
     address:         "smtp.gmail.com",
     port:            587,
-    domain:          "ggame-of-life-extendi-8849dd8f6df1.herokuapp.com",
+    domain:          "game-of-life-extendi-8849dd8f6df1.herokuapp.com",
     user_name:       ENV["SMTP_USER_NAME"],
     password:        ENV["SMTP_PASSWORD"],
     authentication:  "plain",
