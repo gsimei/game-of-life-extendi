@@ -21,9 +21,10 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
 
 # Install necessary packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
       curl libjemalloc2 libvips postgresql-client git build-essential libpq-dev pkg-config && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy dependency files
 COPY Gemfile Gemfile.lock ./
