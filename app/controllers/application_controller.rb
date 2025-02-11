@@ -7,13 +7,10 @@
 #   end
 #
 class ApplicationController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
-
+  # include DeviseTokenAuth::Concerns::SetUserByToken
   # This filter will run before any action in the controllers that inherit from ApplicationController.
   # It ensures that the user is authenticated before accessing any controller actions.
   #
   # @return [void]
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 end
