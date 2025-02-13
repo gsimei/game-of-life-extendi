@@ -11,8 +11,10 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
-
+#  Use Rack Cors for Cross-Origin Resource Sharing []
 gem "rack-cors"
+# Use Devise JWT for authentication []
+gem "devise-jwt"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
@@ -29,6 +31,8 @@ gem "tailwindcss-rails"
 gem "devise"
 # Use Thruster for deploying Rails applications [https://github.com/basecamp/thruster]
 gem "thruster"
+
+gem "dotenv-rails", groups: [ :development, :test ]
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

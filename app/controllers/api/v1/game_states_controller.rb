@@ -1,11 +1,15 @@
 module Api
   module V1
     class GameStatesController < ApplicationController
-      # before_action :authenticate_user!
       before_action :set_game_state, only: %i[show next_generation destroy reset_to_initial]
 
       # GET /api/v1/game_states
       def index
+        Rails.logger.info "🔍 [DEBUG] Usuário autenticado: #{current_user&.email}"
+
+        Rails.logger.info "Cabeçalho Authorization: #{request.headers['Authorization']}"
+        Rails.logger.info "Usuário autenticado: #{current_user.inspect}" # ✅ Deve mostrar um usuário válido agora
+
         @game_states = current_user.game_states.order(created_at: :desc)
         render json: @game_states
       end
@@ -17,7 +21,7 @@ module Api
 
       # POST /api/v1/game_states
       def create
-        @game_state = current_user.game_states.new(game_state_params)
+        @game_state = current_api_v1_user.game_states.new(game_state_params)
         if @game_state.save
           render json: @game_state, status: :created, location: api_v1_game_state_path(@game_state)
         else

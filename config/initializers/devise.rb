@@ -29,6 +29,15 @@ Devise.setup do |config|
   # Configure the class responsible to send e-mails.
   config.mailer = "Devise::Mailer"
 
+  config.navigational_formats = []  # 🔥 Remove formatos HTML para APIs
+
+  config.jwt do |jwt|
+    jwt.secret = ENV.fetch("DEVISE_JWT_SECRET_KEY") { "39a92dee63a5f033c4be6dac10e7a3ce02920f127031574a418f79c4d4e7b592ba6dbaa567123dd37e272c9152251d2f6a5217c687bdb22fd794a157bcf76d58" }
+    jwt.dispatch_requests = [ [ "POST", %r{^/api/v1/users/sign_in$} ] ]
+    jwt.revocation_requests = [ [ "DELETE", %r{^/api/v1/users/sign_out$} ] ]
+    jwt.expiration_time = 1.day.to_i
+  end
+
   # Configure the parent class responsible to send e-mails.
   config.parent_mailer = "ActionMailer::Base"
 
@@ -91,7 +100,7 @@ Devise.setup do |config|
   # to behave the same regardless if the e-mail provided was right or wrong.
   # Does not affect registerable.
   # config.paranoid = true
-
+  config.http_authenticatable = [ :jwt ]
   # By default Devise will store the user in session. You can skip storage for
   # particular strategies by setting this option.
   # Notice that if you are skipping storage for all authentication paths, you
@@ -248,7 +257,7 @@ Devise.setup do |config|
 
   # Configure the default scope given to Warden. By default it's the first
   # devise role declared in your routes (usually :user).
-  # config.default_scope = :user
+  config.default_scope = :user
 
   # Set this configuration to false if you want /users/sign_out to sign out
   # only the current scope. By default, Devise signs out all scopes.

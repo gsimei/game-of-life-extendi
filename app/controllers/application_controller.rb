@@ -7,10 +7,12 @@
 #   end
 #
 class ApplicationController < ActionController::API
-  # include DeviseTokenAuth::Concerns::SetUserByToken
-  # This filter will run before any action in the controllers that inherit from ApplicationController.
-  # It ensures that the user is authenticated before accessing any controller actions.
-  #
-  # @return [void]
-  # before_action :authenticate_user!
+  include Devise::Controllers::Helpers
+  before_action :authenticate_api_v1_user! # 🔥 Garante que a autenticação funciona para API
+
+  private
+
+  def current_user
+    current_api_v1_user # 🔥 Certifica-se de que o Devise reconhece `current_user`
+  end
 end

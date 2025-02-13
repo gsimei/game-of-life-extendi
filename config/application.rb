@@ -24,12 +24,19 @@ module GameOfLifeExtendi
     # Configure CORS to handle cross-origin requests
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins "http://localhost:3000" # Modifique de acordo com a URL do seu frontend
+        origins "http://localhost:5173" # Modifique de acordo com a URL do seu frontend
         resource "*",
-          headers: :any,
+        headers: :any,
+          expose: [ "Authorization" ],
           methods: [ :get, :post, :put, :patch, :delete, :options, :head ],
           credentials: true
       end
+    end
+
+    config.middleware.use Warden::Manager do |manager|
+      Devise.warden_config = manager
+      manager.default_strategies :jwt
+      manager.failure_app = Devise::FailureApp
     end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
