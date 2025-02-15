@@ -1,36 +1,34 @@
 # README
 
-# **Game of Life Extendi**
+# **Game of Life Extendi (API-Only)**
 
-A Ruby on Rails web application based on Conway's *Game of Life*, enhanced with Docker support, TailwindCSS for styling, and a streamlined setup process for development and production environments.
+A Ruby on Rails (API-only) application based on Conway's *Game of Life*, enhanced with Docker support for a streamlined setup.
 
 ---
 
 ## **Table of Contents**
 1. [Overview](#overview)
 2. [Features](#features)
-3. [Code Structure](#code-structure)
-4. [Setup and Installation](#setup-and-installation)
-5. [Running the Project](#running-the-project)
-6. [Running tests](#running-tests)
-7. [Generating Documentation](#generating-documentation)
-8. [Technologies Used](#technologies-used)
-9. [License](#license)
+3. [Setup and Installation](#setup-and-installation)
+4. [Running the Project](#running-the-project)
+5. [Running tests](#running-tests)
+6. [Generating Documentation](#generating-documentation)
+7. [Technologies Used](#technologies-used)
+8. [License](#license)
 
 ---
 
 ## **Overview**
 
-**Game of Life Extendi** implements Conway's *Game of Life* in a responsive web application. It uses Rails 8 as the backend and TailwindCSS for a clean user interface. The project is pre-configured for development using **Docker Compose** and can be deployed easily in production.
+**Game of Life Extendi** implements Conway's *Game of Life* as an API-only Rails application. It uses Rails 8 for the backend. The project is Docker-ready for easy local development and production deployment.
 
 ---
 
 ## **Features**
 
-- **Dynamic Simulation**: Simulate Conway's *Game of Life* with an interactive interface.
-- **Responsive UI**: TailwindCSS provides a clean and adaptable design.
-- **Dockerized Environment**: Simplified setup using Docker for development and production.
-- **Email Integration**: Support for notifications via Gmail.
+- **API-Only**: No views or controllers for HTML — all data is served via JSON responses.
+- **Conway's Game of Life**: Implements next-generation logic and resetting functionality.
+- **Dockerized Environment**: Simplified setup using Docker Compose.
 
 ---
 
@@ -105,9 +103,6 @@ Clone the project to your local machine:
   git clone https://github.com/gsimei/game-of-life-extendi.git
   cd game-of-life-extendi
 ```
-
-### **3. Create Environment Variablesy**
-The .env file will be send by email
 
 ---
 
