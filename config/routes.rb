@@ -10,8 +10,11 @@ Rails.application.routes.draw do
       devise_for :users,
       defaults: { format: :json },
       class_name: "User",
-      skip: [ :registrations ],
-      controllers: { sessions: "api/v1/users/sessions" }
+      controllers: {
+        sessions: "api/v1/users/sessions",
+        registrations: "api/v1/users/registrations"
+      }
+
 
       # devise_scope :user do
       #   delete "/users/sign_out", to: "api/v1/users/sessions#destroy"
