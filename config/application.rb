@@ -24,7 +24,7 @@ module GameOfLifeExtendi
     # Configure CORS to handle cross-origin requests
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins "http://localhost:5173" # Modifique de acordo com a URL do seu frontend
+        origins "http://localhost:5173", "https://game-of-life-react-5768c90f6479.herokuapp.com"
         resource "*",
         headers: :any,
           expose: [ "Authorization" ],
