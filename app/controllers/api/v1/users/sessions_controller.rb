@@ -6,24 +6,30 @@ module Api
         respond_to :json
 
         def create
-          Rails.logger.info "🚀 [DEBUG] Iniciando autenticação"
-          binding.irb
-          authenticated_user = warden.authenticate!(:database_authenticatable, scope: :api_v1_user)
-          token = request.env["warden-jwt_auth.token"] || Warden::JWTAuth::UserEncoder.new.call(authenticated_user, :api_v1_user, nil)[0]
+          user_params = params.require(:user).permit(:email, :password)
+          user = User.find_by(email: user_params[:email])
 
-          Rails.logger.info "✅ [DEBUG] Usuário autenticado: #{authenticated_user.email}"
-          Rails.logger.info "✅ [DEBUG] Token JWT: #{token}"
+          if user&.valid_password?(user_params[:password])
+            warden.set_user(user, scope: :api_v1_user)
 
-          render json: { user: authenticated_user, token: token }, status: :ok
+            token = request.env["warden-jwt_auth.token"]
+
+            unless token
+              token, _ = Warden::JWTAuth::UserEncoder.new.call(user, :api_v1_user, nil)
+            end
+
+            render json: { user: user, token: token }, status: :ok
+          else
+            render json: { error: "Email ou senha inválidos" }, status: :unauthorized
+          end
         end
 
         private
 
         def respond_with(resource, _opts = {})
-          token = request.env["warden-jwt_auth.token"]
           render json: {
             user: resource,
-            token: token
+            token: request.env["warden-jwt_auth.token"]
           }, status: :ok
         end
 

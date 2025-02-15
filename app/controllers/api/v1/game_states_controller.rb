@@ -5,11 +5,6 @@ module Api
 
       # GET /api/v1/game_states
       def index
-        Rails.logger.info "🔍 [DEBUG] Usuário autenticado: #{current_user&.email}"
-
-        Rails.logger.info "Cabeçalho Authorization: #{request.headers['Authorization']}"
-        Rails.logger.info "Usuário autenticado: #{current_user.inspect}" # ✅ Deve mostrar um usuário válido agora
-
         @game_states = current_user.game_states.order(created_at: :desc)
         render json: @game_states
       end
@@ -43,7 +38,7 @@ module Api
         if @game_state.restore_initial_state!
           render json: @game_state
         else
-          render json: @game_state.errors, status: :unprocessable_entity
+          render json: { errors: @game_state.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
