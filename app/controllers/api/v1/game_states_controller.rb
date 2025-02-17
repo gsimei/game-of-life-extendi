@@ -29,7 +29,7 @@ module Api
         if @game_state.next_generation!
           render json: @game_state
         else
-          render json: @game_state.errors, status: :unprocessable_entity
+          render json: { errors: @game_state.errors.full_messages }, status: :unprocessable_entity
         end
       end
 
