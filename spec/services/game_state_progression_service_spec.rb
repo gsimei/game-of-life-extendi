@@ -145,4 +145,80 @@ RSpec.describe GameStateProgressionService do
       end
     end
   end
+
+  describe "Validation and error handling" do
+    ##
+    # Validates that the service raises an error if the number of
+    # rows in the game state does not match the expected count.
+    #
+    # @example Expected output:
+    #   raise GameStateProgressionError with message containing "number of rows"
+    it "raises an error when the row count is incorrect" do
+      game_state = build(:game_state, user: user, rows: 3, cols: 3, state: [
+        [ ".", ".", "." ],
+        [ ".", "*", "." ]  # Missing third row
+      ])
+
+      service = GameStateProgressionService.new(game_state)
+      expect { service.next_generation! }
+        .to raise_error(GameStateProgressionError, /number of rows/)
+    end
+
+    ##
+    # Validates that the service raises an error if a row contains
+    # an incorrect number of columns.
+    #
+    # @example Expected output:
+    #   raise GameStateProgressionError with message containing "row 1"
+    it "raises an error when a row has an incorrect column count" do
+      game_state = build(:game_state, user: user, rows: 3, cols: 3, state: [
+        [ ".", ".", "." ],
+        [ ".", "*" ],  # Invalid row (only 2 columns instead of 3)
+        [ ".", ".", "." ]
+      ])
+
+      service = GameStateProgressionService.new(game_state)
+      expect { service.next_generation! }
+      .to raise_error(GameStateProgressionError, /Row 1 does not match the expected \d+ columns/)
+    end
+
+    ##
+    # Validates that the service raises an error if the game state
+    # contains an invalid character.
+    #
+    # @example Expected output:
+    #   raise GameStateProgressionError with message containing "Invalid cell"
+    it "raises an error when an invalid character is present in the grid" do
+      game_state = build(:game_state, user: user, rows: 3, cols: 3, state: [
+        [ ".", ".", "." ],
+        [ ".", "X", "." ],  # Invalid character "X"
+        [ ".", ".", "." ]
+      ])
+
+      service = GameStateProgressionService.new(game_state)
+      expect { service.next_generation! }
+        .to raise_error(GameStateProgressionError, /Invalid cell/)
+    end
+
+    ##
+    # Validates that the service raises an error if saving the new game
+    # state fails due to a database validation error.
+    #
+    # @example Expected output:
+    #   raise GameStateProgressionError with message containing "Failed to save"
+    it "raises an error when saving the game state fails" do
+      game_state = build(:game_state, user: user, rows: 3, cols: 3, state: [
+        [ ".", "*", "." ],
+        [ "*", "*", "." ],
+        [ ".", ".", "." ]
+      ])
+
+      # Simulates a database validation failure
+      allow(game_state).to receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(game_state))
+
+      service = GameStateProgressionService.new(game_state)
+      expect { service.next_generation! }
+        .to raise_error(GameStateProgressionError, /Failed to save/)
+    end
+  end
 end
