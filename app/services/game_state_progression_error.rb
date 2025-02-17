@@ -1,0 +1,1 @@
+class GameStateProgressionError < StandardError; end

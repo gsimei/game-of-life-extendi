@@ -35,6 +35,8 @@ class GameStateProgressionService
   #
   # @return [void]
   def next_generation!
+    validate_current_state!
+
     # Create an empty grid with DEAD cells for the next state
     next_state = Array.new(@rows) { Array.new(@cols, DEAD) }
 
@@ -54,6 +56,13 @@ class GameStateProgressionService
       @game_state.generation += 1
       @game_state.save!
     end
+
+  rescue ActiveRecord::RecordInvalid => e
+    # If save! fails due to ActiveRecord validations, raise a custom exception
+    raise GameStateProgressionError, "Failed to save the game state: #{e.record.errors.full_messages.join(', ')}"
+  rescue StandardError => e
+    # Any other unexpected errors are encapsulated
+    raise GameStateProgressionError, "Error while progressing to the next generation: #{e.message}"
   end
 
   private
@@ -93,5 +102,26 @@ class GameStateProgressionService
   # @return [Boolean] true if the position is valid, false otherwise
   def valid_position?(row, col)
     row.between?(0, @rows - 1) && col.between?(0, @cols - 1)
+  end
+
+  # Validates whether the current game state has the correct format before progressing.
+  def validate_current_state!
+    # Checks if the number of rows matches @rows
+    unless @current_state.is_a?(Array) && @current_state.size == @rows
+      raise GameStateProgressionError, "The number of rows does not match the expected #{@rows}"
+    end
+
+    # Checks if each row has the correct number of columns (@cols) and contains valid symbols
+    @current_state.each_with_index do |row_array, i|
+      unless row_array.is_a?(Array) && row_array.size == @cols
+        raise GameStateProgressionError, "Row #{i} does not match the expected #{@cols} columns"
+      end
+
+      row_array.each_with_index do |cell, j|
+        unless [ ALIVE, DEAD ].include?(cell)
+          raise GameStateProgressionError, "Invalid cell at position (#{i},#{j}): #{cell.inspect}"
+        end
+      end
+    end
   end
 end

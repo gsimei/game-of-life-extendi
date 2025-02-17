@@ -17,7 +17,13 @@ class GameState < ApplicationRecord
   #
   # @return [void]
   def next_generation!
-    GameStateProgressionService.new(self).next_generation!
+    begin
+      GameStateProgressionService.new(self).next_generation!
+      true
+    rescue GameStateProgressionError => e
+      errors.add(:base, e.message)
+      false
+    end
   end
 
   # Restores the game state to its initial state.
