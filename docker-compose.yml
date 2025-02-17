@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -28,9 +26,8 @@ services:
     ports:
       - "3000:3000"
     tty: true
-    # Se quiser usar o estágio de 'development', basta não setar RAILS_ENV=production
-    # e a imagem usará o CMD do estágio "development".
-    # Abaixo, você pode sobrescrever para rodar outro comando, se quiser:
+    # If you want to use the 'development' stage, just don't set RAILS_ENV=production
+    # and the image will use the CMD from the 'development' stage.
     command: >
       bash -c "rm -f tmp/pids/server.pid && bin/rails db:create db:migrate && bin/rails s -b 0.0.0.0 -p 3000"
 
